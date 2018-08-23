@@ -1,17 +1,17 @@
 import torch.nn as nn
 from functools import partial
 #train_config
-test_time = False
 
 train = {}
 train['dataset'] = 'zero'
 assert train['dataset'] in ['msceleb','msceleb_origin','temp','test_speed','zero']
-train['train_img_list'] = './{}_train.list'.format( train['dataset']  )
-train['val_img_list'] = './{}_val.list'.format( train['dataset'] )
+train['train_img_list'] = 'data/{}_train.list'.format( train['dataset']  )
+train['val_img_list'] = {'zero':'data/{}_zero_val.list'.format( train['dataset']) , 'all':'data/{}_all_val.list'.format( train['dataset']) , 'multi':'data/{}_multi_val.list'.format( train['dataset'])}
 train['attribute_file'] = './data/DatasetA_train_20180813/attributes_per_class_cleaned.txt'
+train['label_dict_file'] = './data/labelname_labelno.list'
 
 train['batch_size'] = 64 
-train['val_batch_size'] = 256
+train['val_batch_size'] = 64
 train['num_epochs'] = 140
 train['log_step'] = 10
 train['save_epoch'] = 1
@@ -23,8 +23,11 @@ train['momentum'] = 0.9
 train['nesterov'] = True 
 
 train['mannual_learning_rate'] = True
+#settings for mannual tuning
 train['lr_bounds'] = [ 0 , 60 , 100 , 120 , train['num_epochs'] ]
 train['lrs'] = [ 1e-1 , 1e-2 , 1e-3 , 1e-4 ]
+
+#settings for auto tuning
 train['cycle_len'] = 1
 train['num_cycles'] = 4
 #train['num_restart'] = 5

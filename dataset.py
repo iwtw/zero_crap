@@ -5,7 +5,7 @@ import torchvision
 import torchvision.transforms
 
 class ZeroDataset(data.Dataset):
-    def __init__(self , list_file , attribute_file , is_training , has_label = True , has_filename = False):
+    def __init__(self , list_file , attribute_file , label_dict_file ,  is_training , has_label = True , has_filename = False):
         self.is_training= is_training
         self.has_filename = has_filename
         img_list = open(list_file,'r').read().strip().split('\n')
@@ -17,9 +17,12 @@ class ZeroDataset(data.Dataset):
         attr_list.sort(key=lambda x:int(x[0][3:]))
         self.num_attributes = len(attr_list[0]) - 1 
 
-        self.label_dict = {}
-        for idx,v in enumerate(attr_list):
-            self.label_dict[v[0]] = idx
+        label_dict_list = open(label_dict_file).read().strip().split('\n')
+        self.labelname_to_labelno = {}
+        self.labelno_to_labelname = {}
+        for line in label_dict_list:
+            self.labelname_to_labelno[line.split('\t')[0]] = int(line.split('\t')[1])
+            self.labelno_to_labelname[int(line.split('\t')[1])] = line.split('\t')[0]
 
         self.label_idx_to_label_list = list( map( lambda x:x[0]  , attr_list  ) ) 
 
@@ -28,8 +31,8 @@ class ZeroDataset(data.Dataset):
         #parse list_file
         if self.has_label:
             self.label_list = [ filename.split('\t')[-1]  for filename in img_list ] 
-            self.label_list = [self.label_dict[label] for label in self.label_list]
-            self.num_classes = len(self.label_dict) 
+            self.label_list = [self.labelname_to_labelno[label] for label in self.label_list]
+            self.num_classes = len(self.labelname_to_labelno) 
             self.img_list = [ filename.split('\t')[0] for filename in img_list  ]
         else:
             self.img_list = img_list

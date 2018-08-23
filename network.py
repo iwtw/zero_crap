@@ -84,6 +84,7 @@ class ArcResNet(nn.Module):
         #return {'fc':x , 'feature':feats}
 
 
+
 def arc_resnet18(fm_mult,**kwargs):
     feature_layer_dim = [64,64,128,256,512]
     feature_layer_dim = [ int(num_feature * fm_mult) for num_feature in feature_layer_dim ]

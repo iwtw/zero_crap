@@ -11,6 +11,32 @@ import importlib
 from types import ModuleType
 import datetime
 from tqdm import tqdm
+from time import time
+
+class LogParser:
+    def __init__(self):
+        self.t = time()
+
+    def parse_log_dict( self,  log_dicts , epoch , lr , num_imgs , config):
+        t = time()
+        log_msg = ""
+        if config.train['mannual_learning_rate']:
+            log_msg += "epoch {}  ,  lr {:.3e} {:.2f} imgs/s\n".format( epoch , lr ,  num_imgs / (t - self.t) )
+
+        else:
+            log_msg += "epoch {} , epoch_in_cyle {} , cycle_len {} ,  lr {:.3e} {:.2f} imgs/s\n".format( epoch , epoch_in_cycle , cycle_len , best_lr,  ( len(train_dataloader) * config.train['batch_size'] + len( val_dataloader ) * config.train['val_batch_size'] ) / (t - self.t) )
+        for tag in log_dicts:
+            log_msg += "  {} : ".format(tag)
+            log_dict = log_dicts[tag]
+            for idx,k_v in enumerate(log_dict.items()):
+                k,v = k_v
+                if k == 'acc':
+                    log_msg += "{} {:.3%} {} ".format(k,v,',')
+                else:
+                    log_msg += "{} {:.5f} {} ".format(k,v,',' if idx < len(log_dict) -1 else '\n')
+        self.t = t
+        return log_msg
+
 
 
 class TensorBoardX:
@@ -69,6 +95,8 @@ class TensorBoardX:
     def export_json(self, out_file , logtype ):
         self.writer[logtype].export_scalars_to_json(out_file)
     def write_log(self , msg , end = '\n' , use_tqdm = True ):
+        sys.stdout.flush()
+        self.logger.flush()
         if use_tqdm:
             tqdm.write(msg, file=sys.stdout, end=end)
         else:
