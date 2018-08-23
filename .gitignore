@@ -1,0 +1,5 @@
+save/
+__pycache__/
+data/DatasetA_test_20180813/
+data/DatasetA_train_20180813/
+output/
