@@ -90,9 +90,10 @@ def compute_loss2( results , batch , epoch , config , is_training = False ):
     return loss_dict
 
 def compute_loss3( results , batch , epoch , config ,  is_training = False ):
-    if is_training:
-        results['fc'] = results['fc'][:,:train_num_classes]
-    return compute_loss1( results , batch , epoch , config ,  is_training = is_training , mse_attribute = False)
+
+    predicts = get_predict( results , config , attr_list )
+    loss_dict['err'] = 1 - torch.eq( predicts , batch['label'] ).float().mean() 
+    loss_dict['mse_weight'] =  mse( results['weight'][:train_num_classes] , label_weight )
 
 def compute_total_loss( loss_dict ):
     if 'softmax' in loss_dict:
@@ -101,6 +102,8 @@ def compute_total_loss( loss_dict ):
         ret = loss_dict['aam']
     if 'mse_attribute' in loss_dict:
         ret += config.loss['weight_mse_attribute'] * loss_dict['mse_attribute']
+    if 'mse_weight' in loss_dict:
+        ret += loss_dict['mse_weight']
     #ret += loss_dict['mse_feature_']
     return ret
     
@@ -162,6 +165,10 @@ def main(config):
         load_model( feature_net , load_path , strict = True )
         net = ZeroShotGCN( feature_net.features , gcn )
         net.cuda()
+        set_requires_grad( feature_net , False )
+
+        global label_weight
+        label_weight = feature_net.classifier.weight
 
     else:
         kwargs = {}

@@ -184,7 +184,7 @@ class ZeroShotGCN(nn.Module):
         if use_normalization:
             return {'fc': F.linear( F.normalize(x) , F.normalize(w) )}
         else:
-            return {'fc': F.linear( x , w )}
+            return {'fc': F.linear( x , w ) , 'weight':w}
 
 
 
