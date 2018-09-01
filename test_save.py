@@ -19,14 +19,16 @@ def parse_args():
     parser.add_argument('--output_list',type=str,default='./output.list')
     parser.add_argument('--batch_size' , type=int,default=1)
     parser.add_argument('--resume_epoch',default=None)
+    parser.add_argument('--has_label',dest='has_label',action='store_true')
+    parser.set_defaults(has_label=False)
     return parser.parse_args()
 
 
 if __name__ == '__main__' :
     args = parse_args()
 
-    dataset = ZeroDataset(args.input_list,config.train['attribute_file'] , is_training = False , has_label=False,has_filename=True)
-    dataloader = DataLoader( dataset , batch_size = args.batch_size , shuffle = False , drop_last = False , num_workers = 8 , pin_memory = False )
+    dataset = ZeroDataset(args.input_list,config.train['attribute_file'] , config.train['label_dict_file'] , config.train['attribute_index'] , is_training = False , has_label=args.has_label,has_filename=True)
+    dataloader = DataLoader( dataset , batch_size = args.batch_size , shuffle = False , drop_last = False , num_workers = 4 , pin_memory = False )
     
     net_name = config.net.pop('name')
     net = eval(net_name)( **config.net )
@@ -48,11 +50,11 @@ if __name__ == '__main__' :
 
             
             results = net( batch['img'] , None , True)
-            y = get_predict( results['fc'] , config , dataset.attr_list )
+            y = get_predict( results , config , dataset.attr_list )
 
             input_filename_list = batch['filename']
             for predict,filename in zip(y,batch['filename']):
-                output_list.append( '{}\t{}'.format(filename.split('/')[-1] , dataset.label_idx_to_label_list[predict])  )
+                output_list.append( '{}\t{}'.format(filename.split('/')[-1] , dataset.labelno_to_labelname[int(predict.cpu().detach().numpy())])  )
     
     with open(args.output_list,'w') as fp:
         fp.write( '\n'.join( output_list ) + '\n' )

@@ -1,14 +1,18 @@
 import os
 import numpy as np
 
-img_list_name = './DatasetA_train_20180813/train.txt'
+np.random.seed(0)
 
+NUM_ZERO_CLASS = 20
+NUM_VAL_PER_CLASS = 10
+img_list_name = './DatasetA_train_20180813/train.txt'
 miss_class = [17,20,27,33,74,112,134,136,148,155]
 t = [ i for i in range(1,201) ]
 
 for v in miss_class:
     t.remove(v)
-zero_class = np.random.choice( np.array(t) , 10 )
+zero_class = np.random.choice( np.array(t) , NUM_ZERO_CLASS , replace = False )
+#zero_class = np.array( [i for i in range(191,201)] )
 print(zero_class)
 
 
@@ -26,7 +30,7 @@ for idx , line in enumerate(img_list):
         if int(label[3:]) in zero_class:
             zero_val_list += temp_list
         else:
-            choice_idx = np.random.choice( np.arange(len(temp_list)) , 3 )
+            choice_idx = np.random.choice( np.arange(len(temp_list)) , NUM_VAL_PER_CLASS )
             for idx , v in enumerate(temp_list) :
                 if idx in choice_idx:
                     val_list.append( v )
@@ -36,8 +40,7 @@ for idx , line in enumerate(img_list):
             label_cnt += 1 
         temp_list.clear()
 
-print(label_cnt)
-assert label_cnt == 180
+assert label_cnt == 190 -  NUM_ZERO_CLASS
 
 cnt_label_list = [line.split('\t')[0] for line in label_label_no_list]
 attr_list = open('./DatasetA_train_20180813/attributes_per_class.txt').read().strip().split('\n')
@@ -63,4 +66,5 @@ with open('labelname_labelno.list','w') as fp:
     fp.write('\n'.join(label_label_no_list)+'\n')
     fp.flush()
 os.system('cat zero_multi_val.list zero_zero_val.list > zero_all_val.list')
+os.system('python ./sort_class_attributes.py')
 

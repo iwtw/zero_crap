@@ -106,8 +106,8 @@ class ResNet( nn.Module ):
         self.pre_activation = pre_activation
         self.use_maxpool = use_maxpool
         self.use_avgpool = use_avgpool
-        assert len(num_features) == 5 
-        assert len(num_blocks) == 4 
+        #assert len(num_features) == 5 
+        #assert len(num_blocks) == 4 
         self.conv1 = conv( 3 , num_features[0] , first_kernel_size , strides[0] , first_kernel_size//2 , activation_fn , use_batchnorm = use_batchnorm , bias = False  )
         if self.use_maxpool:
             self.maxpool = nn.MaxPool2d( 3,2,1 )

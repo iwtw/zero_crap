@@ -1,0 +1,1 @@
+save/arc_resnet18_zero_shape-hw(64,64)_m0.2_s16_SGD/89

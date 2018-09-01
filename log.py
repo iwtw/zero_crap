@@ -30,8 +30,12 @@ class LogParser:
             log_dict = log_dicts[tag]
             for idx,k_v in enumerate(log_dict.items()):
                 k,v = k_v
-                if k == 'acc':
-                    log_msg += "{} {:.3%} {} ".format(k,v,',')
+                if k == 'err':
+                    k = 'acc'
+                    v = 1 - v
+                spec_list = ['err','acc','topk']
+                if sum( [ k in word for word in spec_list ] ):
+                    log_msg += "{} {:.3%} {} ".format(k,v,',' if idx < len(log_dict) -1 else '\n')
                 else:
                     log_msg += "{} {:.5f} {} ".format(k,v,',' if idx < len(log_dict) -1 else '\n')
         self.t = t
@@ -67,6 +71,7 @@ class TensorBoardX:
             for k, v in sorted(config.__dict__.items()):
                 if not k.startswith('_') and not isinstance( v , ModuleType ) :
                     fout.write("%s = %s\n" % (k, str(v)))
+                    print("%s = %s"%(k,str(v)) )
         self.logger = open( os.path.join(self.path,'log.txt') ,'w' )
         self.err_logger = open( os.path.join(self.path,'err.txt') ,'w' )
 
@@ -84,9 +89,9 @@ class TensorBoardX:
 
     def add_image_single(self, index, x, niter , logtype):
         self.writer[logtype].add_image(index, x, niter)
+
     def add_histogram(self, index , x , niter , logtype):
         self.writer[logtype].add_histogram( index , x , niter )
-
 
     def add_graph(self, index, x_input, model , logtype):
         torch.onnx.export(model, x_input, os.path.join(self.path, "{}.proto".format(index)), verbose=True)
@@ -109,11 +114,12 @@ class TensorBoardX:
         self.err_logger.write( msg + end )
         sys.stderr.flush()
         self.err_logger.flush()
-    def write_net(self , msg ):
+    def write_net(self , msg , silent = True):
         with open(os.path.join(self.path,'net.txt') , 'w') as fp:
             fp.write( msg +'\n' )
-        sys.stdout.write(msg+'\n')
-        sys.stdout.flush()
+        if not silent:
+            sys.stdout.write(msg+'\n')
+            sys.stdout.flush()
         
 
         
