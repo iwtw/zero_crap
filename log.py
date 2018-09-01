@@ -36,6 +36,8 @@ class LogParser:
                 spec_list = ['err','acc','topk']
                 if sum( [ k in word for word in spec_list ] ):
                     log_msg += "{} {:.3%} {} ".format(k,v,',' if idx < len(log_dict) -1 else '\n')
+                elif 'mse' in k:
+                    log_msg += "{} {:.7e} {} ".format(k,v,',' if idx < len(log_dict) -1 else '\n')
                 else:
                     log_msg += "{} {:.5f} {} ".format(k,v,',' if idx < len(log_dict) -1 else '\n')
         self.t = t

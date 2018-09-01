@@ -18,14 +18,14 @@ train['class_attributes'] = './data/attributes_per_class_cleaned_plus_class_word
 train['attribute_file'] = train['class_attributes']
 train['attribute_index'] = None#this option is only valid when 'ris' 
 
-train['batch_size'] = 64 
+train['batch_size'] = 1 
 train['val_batch_size'] = 256
 train['num_epochs'] = 3000
 train['log_step'] = 10000000000
 train['save_epoch'] = 1
 train['save_metric'] = 'err'
 train['optimizer'] = 'Adam'
-train['learning_rate'] = 1e0
+train['learning_rate'] = 1e1
 
 #-- for SGD -- #
 train['momentum'] = 0.9
@@ -34,7 +34,7 @@ train['nesterov'] = True
 train['mannual_learning_rate'] = True
 #settings for mannual tuning
 train['lr_bounds'] = [ 0 , 60 , 100 , 3000 , train['num_epochs'] ]
-train['lrs'] = [ 1e-3 , 1e-3 , 1e-3 , 1e-3 ]
+train['lrs'] = [ 1e-1 , 1e-2 , 1e-3 , 1e-3 ]
 
 #settings for auto tuning
 train['cycle_len'] = 1
@@ -121,7 +121,7 @@ if 'gcn' in net['name']:
 
 loss = {}
 loss['arcloss_start_epoch'] = 1000000
-loss['weight_l2_reg'] = 1e-4
+loss['weight_l2_reg'] = 5e-4
 loss['weight_mse_attribute'] = 1.0
 loss['m'] = 0.2
 loss['s'] = 16

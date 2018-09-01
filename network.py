@@ -179,12 +179,18 @@ class ZeroShotGCN(nn.Module):
         self.gcn = gcn
         self.gcn = self.gcn
     def forward( self , x , class_attributes , use_normalization = True ):
+        self.features.eval()
+        self.gcn.eval()
         w = self.gcn( class_attributes )
-        x = self.features( x )
-        if use_normalization:
-            return {'fc': F.linear( F.normalize(x) , F.normalize(w) )}
-        else:
-            return {'fc': F.linear( x , w ) , 'weight':w}
+        results = {}
+        if x is not None:
+            x = self.features( x )
+            if use_normalization:
+                results['fc'] =  F.linear( F.normalize(x) , F.normalize(w) )
+            else:
+                results['fc'] =  F.linear( x , w ) 
+        results['weight'] = w
+        return results
 
 
 
