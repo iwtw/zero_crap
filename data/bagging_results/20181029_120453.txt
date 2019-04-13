@@ -1,0 +1,1 @@
+0 ../data/save/tede_resnet18_ZJL_shape-hw(64,64)_splitargs30_10_0_SGD/9 ../data/save/tede_resnet18_ZJL_shape-hw(64,64)_splitargs30_10_0_SGD/9 0.61484375 0.1552309782608695

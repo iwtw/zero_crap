@@ -1,0 +1,10 @@
+0 ../data/save/tede_resnet18_ZJL_shape-hw(64,64)_splitargs30_10_0_SGD/2 ../data/save/tede_resnet18_ZJL_shape-hw(64,64)_splitargs30_10_0_SGD/2 0.6171875 0.25084918478260865
+1 ../data/save/tede_resnet18_ZJL_shape-hw(64,64)_splitargs30_10_1_SGD/0 ../data/save/tede_resnet18_ZJL_shape-hw(64,64)_splitargs30_10_1_SGD/0 0.60546875 0.23063858695652173
+2 ../data/save/tede_resnet18_ZJL_shape-hw(64,64)_splitargs30_10_2_SGD/0 ../data/save/tede_resnet18_ZJL_shape-hw(64,64)_splitargs30_10_2_SGD/0 0.6005859375 0.31063179347826086
+3 ../data/save/tede_resnet18_ZJL_shape-hw(64,64)_splitargs30_10_3_SGD/0 ../data/save/tede_resnet18_ZJL_shape-hw(64,64)_splitargs30_10_3_SGD/0 0.59375 0.25866168478260865
+4 ../data/save/tede_resnet18_ZJL_shape-hw(64,64)_splitargs30_10_4_SGD/0 ../data/save/tede_resnet18_ZJL_shape-hw(64,64)_splitargs30_10_4_SGD/0 0.6220703125 0.21348505434782605
+5 ../data/save/tede_resnet18_ZJL_shape-hw(64,64)_splitargs30_10_5_SGD/0 ../data/save/tede_resnet18_ZJL_shape-hw(64,64)_splitargs30_10_5_SGD/0 0.6015625 0.24893465909090906
+6 ../data/save/tede_resnet18_ZJL_shape-hw(64,64)_splitargs30_10_6_SGD/0 ../data/save/tede_resnet18_ZJL_shape-hw(64,64)_splitargs30_10_6_SGD/0 0.5986328125 0.2629076086956522
+7 ../data/save/tede_resnet18_ZJL_shape-hw(64,64)_splitargs30_10_7_SGD/0 ../data/save/tede_resnet18_ZJL_shape-hw(64,64)_splitargs30_10_7_SGD/0 0.623046875 0.23080842391304346
+8 ../data/save/tede_resnet18_ZJL_shape-hw(64,64)_splitargs30_10_8_SGD/0 ../data/save/tede_resnet18_ZJL_shape-hw(64,64)_splitargs30_10_8_SGD/0 0.595703125 0.23131793478260865
+9 ../data/save/tede_resnet18_ZJL_shape-hw(64,64)_splitargs30_10_9_SGD/0 ../data/save/tede_resnet18_ZJL_shape-hw(64,64)_splitargs30_10_9_SGD/0 0.615234375 0.25254755434782605
