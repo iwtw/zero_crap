@@ -33,4 +33,4 @@
 2. Zero-shot Recognition via Semantic Embeddings and Knowledge Graphs
 3. Fine-Grained Representation Learning and Recognition by Exploiting Hierarchical Semantic Embedding
 4. ArcFace: Additive Angular Margin Loss for Deep Face Recognition
-5. Learning a Deep Embedding Model for Zero-Shot Learning
+5. Hubs in space: Popular nearest neighbors in high-dimensional data
